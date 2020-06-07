@@ -1,1 +1,1 @@
-# js_notes
+# JavaScript作用域
