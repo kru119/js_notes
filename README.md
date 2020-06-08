@@ -67,5 +67,41 @@ function changeColor(){
     };
 }
 ```
-### 改变作用域链
+ ### 问题一
+a = 10;是一个赋值语句，仅仅是给全局对象window创建了一个新属性(但它不是变量)。“不是变量”并不是说它不能被改变，而是指它不符合ECMAScript规范中的变量概念，所以它“不是变量”。
+```
+1 alert(a); // undefined
+2 alert(b); // b is not defined -->报错"b" 没有声明
+3 b = 10;
+4 var a = 20;
+```
+　　我们可以看到，因为“b”不是一个变量，所以在这个阶段根本就没有“b”，“b”将只在代码执行阶段才会出现(但是在我们这个例子里，还没有到那就已经出错了)。
+
+让我们改变一下例子代码：
+```
+1 alert(a); // undefined, 这个大家都知道，
+2 b = 10;
+3 alert(b); // 10, 代码执行阶段创建
+4 var a = 20;
+5 alert(a); // 20, 代码执行阶段修改
+```
+ ### 问题二
+ ```
+ var name = 'laruence';function echo() {
+     alert(name);     var name = 'eve';
+     alert(name);
+     alert(age);
+}echo();
+```
+        运行结果为：undefined eve [脚本出错]
+
+首先，js有函数作用域，当你在函数里面使用变量name，他就会现在函数作用域内部查找name，如果没有则向上一层查找（如果外层还有函数的前提），一直追溯到window全局，如果都没有就是undefined，但是你这个场景，在函数内有var name="eve";javascript中的函数内部任何位置声明的变量，都在整个函数内部有效(js的变量提升)，相当于在最函数最前面var name;
+```
+function echo(){
+var name;alert(name);name="eve";alert(name);alert(age);}
+```
+在你定义变量的地方再赋值，此时，在未赋值的时候，你已经在alert(name)，所以会是undefined
+        
+        
+
 
